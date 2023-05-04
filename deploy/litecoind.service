@@ -1,0 +1,33 @@
+[Unit]
+After=network-online.target
+Description=litecoindaemon
+Documentation=https://github.com/litecoin/litecoin/blob/master/doc/init.md
+Wants=network-online.target
+
+[Service]
+ConfigurationDirectory=litecoin
+ConfigurationDirectoryMode=0710
+ExecStart=/usr/local/bin/litecoind \
+  -conf=/etc/litecoin/litecoin.conf \
+  -chain=${CHAIN}
+ExecStartPre=/bin/chgrp litecoin /etc/litecoin
+Group=litecoin
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+PermissionsStartOnly=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+Restart=on-failure
+RuntimeDirectory=litecoin
+RuntimeDirectoryMode=0710
+StateDirectory=litecoin
+StateDirectoryMode=0710
+TimeoutStartSec=infinity
+TimeoutStopSec=600
+Type=simple
+User=litecoin
+
+[Install]
+WantedBy=multi-user.target
